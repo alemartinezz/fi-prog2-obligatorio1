@@ -53,7 +53,7 @@ public class Main {
             System.out.print(Utils.YELLOW + "Ingrese una opción: " + Utils.RESET);
             input = scanner.next();
 
-        }while(!Utils.validateInput(input, opciones_validas));
+        }while(!Utils.validateOption(input, opciones_validas));
 
         if(input.equalsIgnoreCase("x")){
             Utils.end_program();
@@ -106,20 +106,20 @@ public class Main {
             edad = scanner.nextInt();
         }while (edad <= 5 || edad >= 120);
 
-        String alias = "";
-        System.out.print("Ingrese el alias: ");
-        alias = scanner.nextLine();
-        while ((alias.equals("\0")) || (alias.contains(" ")) || (alias.trim().isEmpty())) {
-            if(alias.contains(" ") || alias.trim().isEmpty()){
-                System.out.printf("\"%s\" no es un alias válido.\n\n", alias);
-            }
-            if(alias_en_uso.contains(alias)){
-                System.out.println("Ese alias ya esta en uso.");
-            }
+
+        boolean flag = false;
+        scanner.nextLine();
+        String alias;
+        do {
             System.out.print("Ingrese el alias: ");
             alias = scanner.nextLine();
-        }
+            flag = !(alias.contains(" ") || alias_en_uso.contains(alias) || alias.equals(""));
+            if (!flag) {
+                System.out.printf("\"%s\" no es un alias válido.\n\n", alias);
+            }
+        } while (!flag);
 
+        
         Jugador jugador = new Jugador(nombre, edad, alias);
         jugadores.add(jugador);
 

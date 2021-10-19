@@ -89,7 +89,7 @@ public class Saltar extends Partida {
 
                 System.out.print(Utils.YELLOW + "Ingrese una opción: " + Utils.RESET);
                 input = scanner.nextLine();
-            }while(!Utils.validateInput(input, opciones_validas));
+            }while(!Utils.validateOption(input, opciones_validas));
 
             // Mandar la columna seleccionada o el fin del juego
             if(input.matches(Utils.regex_digit)){

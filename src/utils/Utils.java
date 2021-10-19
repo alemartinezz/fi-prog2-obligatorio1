@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class Utils {
 
-    public static boolean validateInput(String input, List<String> opciones_validas){
+    public static boolean validateOption(String input, List<String> opciones_validas){
         boolean flag = false;
         if(opciones_validas.contains(input.toLowerCase())){
             flag = true;
