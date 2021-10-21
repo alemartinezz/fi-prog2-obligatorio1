@@ -1,4 +1,8 @@
 package obligatorio_1;
+/**
+ * @author Alejandro Martinez - 270450
+ */
+
 
 import utils.Utils;
 import java.util.ArrayList;
@@ -14,7 +18,6 @@ public class Main {
 
     public static void main(String[] args) {
         jugadores = new ArrayList<Jugador>();
-        jugadores.add(new Jugador("Alehandro", 24, "Ale"));
         bitacora = new ArrayList<Partida>();
         opciones_validas = new ArrayList<>(){
             {
@@ -51,7 +54,7 @@ public class Main {
             System.out.println(Utils.RED + "x"+ Utils.RESET + " - Salir\n");
 
             System.out.print(Utils.YELLOW + "Ingrese una opción: " + Utils.RESET);
-            input = scanner.next();
+            input = scanner.nextLine();
 
         }while(!Utils.validateInput(input, opciones_validas));
 
@@ -86,41 +89,56 @@ public class Main {
                 "|__)|__ / _`|/__`||__)/  \\   |  \\|__       ||  |/ _` /\\ |  \\/  \\|__) \n" +
                 "|  \\|___\\__>|.__/||  \\\\__/   |__/|___   \\__/\\__/\\__>/~~\\|__/\\__/|  \\ \n" + Utils.RESET);
 
-        System.out.print("Ingrese el nombre: ");
-        String nombre;
-        while(scanner.hasNextInt()){
-            System.out.println(scanner.nextInt() + " no es un nombre válido...\n");
-            System.out.print("Ingrese el nombre: ");
-        }
-        nombre = scanner.nextLine();
-        scanner.next();
+        String name = "";
+        boolean flag_name= false;
+        do{
+            System.out.print("Nombre: ");
+            if(scanner.hasNextInt()){
+                int number = scanner.nextInt();
+                System.out.printf("\"%s\" no es un nombre válido...\n", number);
+                scanner.nextLine();
+            }else{
+                name = scanner.nextLine();
+                if(name.length() <= 2){
+                    System.out.println("El nombre es demasiado corto (min: 3)...");
+                }else{
+                    flag_name = true;
+                }
+            }
+        }while(!flag_name);
 
-        int edad;
+        int age = 0;
+        boolean flag_age = false;
         do {
-            System.out.print("Ingrese la edad: ");
-            while (!scanner.hasNextInt()) {
-                String input = scanner.next();
-                System.out.printf("\"%s\" no es una edad válida.\n\n", input);
-                System.out.print("Ingrese la edad: ");
+            System.out.print("Edad: ");
+            if (!scanner.hasNextInt()) {
+                System.out.printf("\"%s\" No es una edad válida.\n", scanner.nextLine());
+            }else{
+                age = Integer.parseInt(scanner.nextLine());
+                if(age <= 3 || age >= 125) {
+                    System.out.println("Necesita ser mayor de 3 años.");
+                }else{
+                    flag_age = true;
+                }
             }
-            edad = scanner.nextInt();
-        }while (edad <= 5 || edad >= 120);
+        }while (!flag_age);
 
+        boolean alias_flag = false;
         String alias = "";
-        System.out.print("Ingrese el alias: ");
-        alias = scanner.nextLine();
-        while ((alias.equals("\0")) || (alias.contains(" ")) || (alias.trim().isEmpty())) {
-            if(alias.contains(" ") || alias.trim().isEmpty()){
-                System.out.printf("\"%s\" no es un alias válido.\n\n", alias);
-            }
-            if(alias_en_uso.contains(alias)){
-                System.out.println("Ese alias ya esta en uso.");
-            }
-            System.out.print("Ingrese el alias: ");
+        do {
+            System.out.print("Ingrese un alias: ");
             alias = scanner.nextLine();
-        }
+            if(alias.contains(" ")){
+                System.out.println("El alias no debe contener espacios.");
+            }else if (alias_en_uso.contains(alias)){
+                System.out.println("El alias ya está en uso.");
+            }else{
+                alias_flag = true;
+            }
+        } while (!alias_flag || alias.equals(""));
 
-        Jugador jugador = new Jugador(nombre, edad, alias);
+
+        Jugador jugador = new Jugador(name, age, alias);
         jugadores.add(jugador);
 
         Utils.blank_line();
@@ -143,27 +161,25 @@ public class Main {
             Utils.blank_line();
             System.out.println("Actualmente no hay ningún jugador registrado.\n");
             Utils.pressEnterKeyToContinue();
-            return;
+        }else{
+            int index = 1;
+            for(Jugador j:jugadores){
+                System.out.println(index + " - " + j.getAlias());
+                index++;
+            }
+            Utils.blank_line();
+            System.out.println(Utils.RED + "x" + Utils.RESET + " - Salir.\n" );
+
+            System.out.print(Utils.YELLOW + "Elija un jugador: ");
+
+            int jugador;
+            while(!scanner.hasNextInt()){
+                System.out.println("Ingrese un jugador válido.");
+            }
+            jugador = Integer.parseInt(scanner.nextLine());
+            Jugador j = jugadores.get(jugador - 1);
+            j.menu();
         }
-
-        int index = 1;
-        for(Jugador j:jugadores){
-            System.out.println(index + " - " + j.getAlias());
-            index++;
-        }
-
-        Utils.blank_line();
-        System.out.println(Utils.RED + "x" + Utils.RESET + " - Salir.\n" );
-        System.out.print(Utils.YELLOW + "Elija un jugador: ");
-
-        int jugador;
-        while(!scanner.hasNextInt()){
-            System.out.println("Ingrese un jugador válido.");
-        }
-        jugador = scanner.nextInt();
-
-        Jugador j = jugadores.get(jugador - 1);
-        j.menu();
     }
 
     private static void mostrarBitacora(){
@@ -176,7 +192,6 @@ public class Main {
         Utils.blank_line();
 
         if(jugadores.size() == 0){
-            Utils.blank_line();
             System.out.println("Actualmente no hay ningún registro en la bitácora...\n" );
             Utils.pressEnterKeyToContinue();
         }else{
@@ -184,8 +199,6 @@ public class Main {
                 System.out.println(partida.getJugador().getAlias() + partida.getPuntaje());
             }
         }
-
-
     }
 
     public static void agregarPartida(Partida partida){

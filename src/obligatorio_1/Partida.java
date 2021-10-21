@@ -1,4 +1,8 @@
 package obligatorio_1;
+/**
+ * @author Alejandro Martinez - 270450
+ */
+
 
 import java.time.LocalDateTime;
 

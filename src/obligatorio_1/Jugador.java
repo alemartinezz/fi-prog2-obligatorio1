@@ -1,7 +1,9 @@
 package obligatorio_1;
+/**
+ * @author Alejandro Martinez - 270450
+ */
 
 import utils.Utils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

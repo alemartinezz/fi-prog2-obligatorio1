@@ -45,7 +45,6 @@ public class Saltar extends Partida {
         System.out.println(Utils.YELLOW + "Configuración del tablero: Predeterminada." + Utils.RESET);
 
         poblarTablero();
-        mostrarTablero();
         juego();
     }
 
@@ -76,6 +75,7 @@ public class Saltar extends Partida {
             String input;
             do{
                 String color_a_mostrar = colorAMostrar(color);
+                Utils.blank_line();
                 System.out.println("Le toca mover al color: " + color_a_mostrar);
                 System.out.println("Las columnas disponibles son: ");
 
@@ -108,7 +108,6 @@ public class Saltar extends Partida {
                     pos --;
                 };
             }
-            mostrarTablero();
         }
     }
 

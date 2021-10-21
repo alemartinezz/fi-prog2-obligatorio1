@@ -1,4 +1,7 @@
 package obligatorio_1;
+/**
+ * @author Alejandro Martinez - 270450
+ */
 
 public class Rectangulo extends Partida{
 
