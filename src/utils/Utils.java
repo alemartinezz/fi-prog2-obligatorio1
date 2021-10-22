@@ -34,6 +34,10 @@ public abstract class Utils {
             System.in.read();
         } catch(Exception e) {}
     }
+    public static boolean isNumeric(String str){
+        return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
     public static final String regex_digit = "\\d+";
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
@@ -43,5 +47,6 @@ public abstract class Utils {
     public static final String BOOK_EMOJI = "\uD83D\uDCDA";
     public static final String CHAT_EMOJI = "\uD83D\uDCAC\uFEFF";
     public static final String CHECK_EMOJI = "✔";
+
 
 }
