@@ -1,0 +1,404 @@
+Index: src/obligatorio_1/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package obligatorio_1;\n\nimport utils.Utils;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Scanner;\n\npublic class Main {\n\n    private static final Scanner scanner = new Scanner(System.in);\n    private static List<String> opciones_validas;\n    private static List<Jugador> jugadores;\n    private static List<Partida> bitacora;\n\n    public static void main(String[] args) {\n        jugadores = new ArrayList<Jugador>();\n        jugadores.add(new Jugador(\"Alehandro\", 24, \"Ale\"));\n        bitacora = new ArrayList<Partida>();\n        opciones_validas = new ArrayList<>(){\n            {\n                add(\"1\");\n                add(\"2\");\n                add(\"3\");\n                add(\"x\");\n            }};\n        menuPrincipal();\n    }\n\n    private static void menuPrincipal(){\n        String input;\n        do{\n            Utils.blank_line();\n            System.out.println(Utils.BLUE +\n                    \"   d888888o.       ,o888888o.     8 8888          8 8888 8888888 8888888888   .8.          8 888888888o.    8 8888     ,o888888o.       d888888o.   \\n\" +\n                    \" .`8888:' `88.  . 8888     `88.   8 8888          8 8888       8 8888        .888.         8 8888    `88.   8 8888  . 8888     `88.   .`8888:' `88. \\n\" +\n                    \" 8.`8888.   Y8 ,8 8888       `8b  8 8888          8 8888       8 8888       :88888.        8 8888     `88   8 8888 ,8 8888       `8b  8.`8888.   Y8 \\n\" +\n                    \" `8.`8888.     88 8888        `8b 8 8888          8 8888       8 8888      . `88888.       8 8888     ,88   8 8888 88 8888        `8b `8.`8888.     \\n\" +\n                    \"  `8.`8888.    88 8888         88 8 8888          8 8888       8 8888     .8. `88888.      8 8888.   ,88'   8 8888 88 8888         88  `8.`8888.    \\n\" +\n                    \"   `8.`8888.   88 8888         88 8 8888          8 8888       8 8888    .8`8. `88888.     8 888888888P'    8 8888 88 8888         88   `8.`8888.   \\n\" +\n                    \"    `8.`8888.  88 8888        ,8P 8 8888          8 8888       8 8888   .8' `8. `88888.    8 8888`8b        8 8888 88 8888        ,8P    `8.`8888.  \\n\" +\n                    \"8b   `8.`8888. `8 8888       ,8P  8 8888          8 8888       8 8888  .8'   `8. `88888.   8 8888 `8b.      8 8888 `8 8888       ,8P 8b   `8.`8888. \\n\" +\n                    \"`8b.  ;8.`8888  ` 8888     ,88'   8 8888          8 8888       8 8888 .888888888. `88888.  8 8888   `8b.    8 8888  ` 8888     ,88'  `8b.  ;8.`8888 \\n\" +\n                    \" `Y8888P ,88P'     `8888888P'     8 888888888888  8 8888       8 8888.8'       `8. `88888. 8 8888     `88.  8 8888     `8888888P'     `Y8888P ,88P'  \" + Utils.RESET);\n            Utils.blank_line();\n\n            System.out.println(\"\"\"\n            1 - Registrar Jugador\n            2 - Ver Bitácora\n            3 - Seleccionar Jugador\n            \"\"\");\n            System.out.println(Utils.RED + \"x\"+ Utils.RESET + \" - Salir\\n\");\n\n            System.out.print(Utils.YELLOW + \"Ingrese una opción: \" + Utils.RESET);\n            input = scanner.next();\n\n        }while(!Utils.validateOption(input, opciones_validas));\n\n        if(input.equalsIgnoreCase(\"x\")){\n            Utils.end_program();\n        }else{\n            opcionSeleccionada(Character.getNumericValue(input.charAt(0)));\n        }\n    }\n\n    private static void opcionSeleccionada(int opcion){\n        if (opcion == 1){\n            registrarJugador();\n        }else if(opcion == 2){\n            mostrarBitacora();\n        }else if (opcion == 3){\n            seleccionarJugador();\n        }\n        menuPrincipal();\n    }\n\n    private static void registrarJugador(){\n\n        // Cargar los aliases en uso\n        List<String> alias_en_uso = new ArrayList<>();\n        for(Jugador jugador : jugadores){\n            alias_en_uso.add(jugador.getAlias());\n        }\n\n        Utils.clear_console(); Utils.blank_line();\n        System.out.println(Utils.RED + \"__  ___ __   _______  __     __  ___            __      __  __  __  \\n\" +\n                \"|__)|__ / _`|/__`||__)/  \\\\   |  \\\\|__       ||  |/ _` /\\\\ |  \\\\/  \\\\|__) \\n\" +\n                \"|  \\\\|___\\\\__>|.__/||  \\\\\\\\__/   |__/|___   \\\\__/\\\\__/\\\\__>/~~\\\\|__/\\\\__/|  \\\\ \\n\" + Utils.RESET);\n\n        System.out.print(\"Ingrese el nombre: \");\n        String nombre;\n        while(scanner.hasNextInt()){\n            System.out.println(scanner.nextInt() + \" no es un nombre válido...\\n\");\n            System.out.print(\"Ingrese el nombre: \");\n        }\n        nombre = scanner.nextLine();\n        scanner.next();\n\n        int edad;\n        do {\n            System.out.print(\"Ingrese la edad: \");\n            while (!scanner.hasNextInt()) {\n                String input = scanner.next();\n                System.out.printf(\"\\\"%s\\\" no es una edad válida.\\n\\n\", input);\n                System.out.print(\"Ingrese la edad: \");\n            }\n            edad = scanner.nextInt();\n        }while (edad <= 5 || edad >= 120);\n\n\n        boolean flag = false;\n        scanner.nextLine();\n        String alias;\n        do {\n            System.out.print(\"Ingrese el alias: \");\n            alias = scanner.nextLine();\n            flag = !(alias.contains(\" \") || alias_en_uso.contains(alias) || alias.equals(\"\"));\n            if (!flag) {\n                System.out.printf(\"\\\"%s\\\" no es un alias válido.\\n\\n\", alias);\n            }\n        } while (!flag);\n\n        \n        Jugador jugador = new Jugador(nombre, edad, alias);\n        jugadores.add(jugador);\n\n        Utils.blank_line();\n        System.out.println(Utils.GREEN + Utils.CHECK_EMOJI +\" Jugador Registrado.\\n\" + Utils.RESET);\n        Utils.pressEnterKeyToContinue();\n    }\n\n    private static void seleccionarJugador(){\n\n        Utils.blank_line();\n        System.out.println(Utils.RED + \"**     _                               _____                             \\n\" +\n                \" ___/__) ,                /)        (, /               /)              \\n\" +\n                \"(, /       _  _/_ _     _(/  _        /      _   _   _(/ _____   _  _  \\n\" +\n                \"  /    _(_/_)_(__(_(_  (_(__(/_   ___/__(_(_(_/_(_(_(_(_(_)/ (__(/_/_)_\\n\" +\n                \" (_____                         /   /      .-/                         \\n\" +\n                \"        )                      (__ /      (_/                          \" + Utils.RESET);\n        Utils.blank_line();\n\n        if(jugadores.size() == 0){\n            Utils.blank_line();\n            System.out.println(\"Actualmente no hay ningún jugador registrado.\\n\");\n            Utils.pressEnterKeyToContinue();\n            return;\n        }\n\n        int index = 1;\n        for(Jugador j:jugadores){\n            System.out.println(index + \" - \" + j.getAlias());\n            index++;\n        }\n\n        Utils.blank_line();\n        System.out.println(Utils.RED + \"x\" + Utils.RESET + \" - Salir.\\n\" );\n        System.out.print(Utils.YELLOW + \"Elija un jugador: \");\n\n        int jugador;\n        while(!scanner.hasNextInt()){\n            System.out.println(\"Ingrese un jugador válido.\");\n        }\n        jugador = scanner.nextInt();\n\n        Jugador j = jugadores.get(jugador - 1);\n        j.menu();\n    }\n\n    private static void mostrarBitacora(){\n        Utils.clear_console();\n        Utils.blank_line();\n        System.out.println(\"__  _  _____  __    ___  __   ___   __   \\n\" +\n                \"|  \\\\| ||_   _|/  \\\\  / _/ /__\\\\ | _ \\\\ /  \\\\  \\n\" +\n                \"| -<| |  | | | /\\\\ || \\\\__| \\\\/ || v /| /\\\\ | \\n\" +\n                \"|__/|_|  |_| |_||_| \\\\__/ \\\\__/ |_|_\\\\|_||_|\");\n        Utils.blank_line();\n\n        if(jugadores.size() == 0){\n            Utils.blank_line();\n            System.out.println(\"Actualmente no hay ningún registro en la bitácora...\\n\" );\n            Utils.pressEnterKeyToContinue();\n        }else{\n            for (Partida partida: bitacora){\n                System.out.println(partida.getJugador().getAlias() + partida.getPuntaje());\n            }\n        }\n\n\n    }\n\n    public static void agregarPartida(Partida partida){\n        bitacora.add(partida);\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/obligatorio_1/Main.java b/src/obligatorio_1/Main.java
+--- a/src/obligatorio_1/Main.java	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/src/obligatorio_1/Main.java	(date 1634810048000)
+@@ -1,4 +1,8 @@
+ package obligatorio_1;
++/**
++ * @author Alejandro Martinez - 270450
++ */
++
+ 
+ import utils.Utils;
+ import java.util.ArrayList;
+@@ -14,7 +18,6 @@
+ 
+     public static void main(String[] args) {
+         jugadores = new ArrayList<Jugador>();
+-        jugadores.add(new Jugador("Alehandro", 24, "Ale"));
+         bitacora = new ArrayList<Partida>();
+         opciones_validas = new ArrayList<>(){
+             {
+@@ -51,9 +54,9 @@
+             System.out.println(Utils.RED + "x"+ Utils.RESET + " - Salir\n");
+ 
+             System.out.print(Utils.YELLOW + "Ingrese una opción: " + Utils.RESET);
+-            input = scanner.next();
++            input = scanner.nextLine();
+ 
+-        }while(!Utils.validateOption(input, opciones_validas));
++        }while(!Utils.validateInput(input, opciones_validas));
+ 
+         if(input.equalsIgnoreCase("x")){
+             Utils.end_program();
+@@ -86,41 +89,56 @@
+                 "|__)|__ / _`|/__`||__)/  \\   |  \\|__       ||  |/ _` /\\ |  \\/  \\|__) \n" +
+                 "|  \\|___\\__>|.__/||  \\\\__/   |__/|___   \\__/\\__/\\__>/~~\\|__/\\__/|  \\ \n" + Utils.RESET);
+ 
+-        System.out.print("Ingrese el nombre: ");
+-        String nombre;
+-        while(scanner.hasNextInt()){
+-            System.out.println(scanner.nextInt() + " no es un nombre válido...\n");
+-            System.out.print("Ingrese el nombre: ");
+-        }
+-        nombre = scanner.nextLine();
+-        scanner.next();
+-
+-        int edad;
+-        do {
+-            System.out.print("Ingrese la edad: ");
+-            while (!scanner.hasNextInt()) {
+-                String input = scanner.next();
+-                System.out.printf("\"%s\" no es una edad válida.\n\n", input);
+-                System.out.print("Ingrese la edad: ");
+-            }
+-            edad = scanner.nextInt();
+-        }while (edad <= 5 || edad >= 120);
+-
+-
+-        boolean flag = false;
+-        scanner.nextLine();
+-        String alias;
++        String name = "";
++        boolean flag_name= false;
++        do{
++            System.out.print("Nombre: ");
++            if(scanner.hasNextInt()){
++                int number = scanner.nextInt();
++                System.out.printf("\"%s\" no es un nombre válido...\n", number);
++                scanner.nextLine();
++            }else{
++                name = scanner.nextLine();
++                if(name.length() <= 2){
++                    System.out.println("El nombre es demasiado corto (min: 3)...");
++                }else{
++                    flag_name = true;
++                }
++            }
++        }while(!flag_name);
++
++        int age = 0;
++        boolean flag_age = false;
+         do {
+-            System.out.print("Ingrese el alias: ");
++            System.out.print("Edad: ");
++            if (!scanner.hasNextInt()) {
++                System.out.printf("\"%s\" No es una edad válida.\n", scanner.nextLine());
++            }else{
++                age = Integer.parseInt(scanner.nextLine());
++                if(age <= 3 || age >= 125) {
++                    System.out.println("Necesita ser mayor de 3 años.");
++                }else{
++                    flag_age = true;
++                }
++            }
++        }while (!flag_age);
++
++        boolean alias_flag = false;
++        String alias = "";
++        do {
++            System.out.print("Ingrese un alias: ");
+             alias = scanner.nextLine();
+-            flag = !(alias.contains(" ") || alias_en_uso.contains(alias) || alias.equals(""));
+-            if (!flag) {
+-                System.out.printf("\"%s\" no es un alias válido.\n\n", alias);
++            if(alias.contains(" ")){
++                System.out.println("El alias no debe contener espacios.");
++            }else if (alias_en_uso.contains(alias)){
++                System.out.println("El alias ya está en uso.");
++            }else{
++                alias_flag = true;
+             }
+-        } while (!flag);
++        } while (!alias_flag || alias.equals(""));
+ 
+-        
+-        Jugador jugador = new Jugador(nombre, edad, alias);
++
++        Jugador jugador = new Jugador(name, age, alias);
+         jugadores.add(jugador);
+ 
+         Utils.blank_line();
+@@ -143,27 +161,25 @@
+             Utils.blank_line();
+             System.out.println("Actualmente no hay ningún jugador registrado.\n");
+             Utils.pressEnterKeyToContinue();
+-            return;
+-        }
+-
+-        int index = 1;
+-        for(Jugador j:jugadores){
+-            System.out.println(index + " - " + j.getAlias());
+-            index++;
+-        }
+-
+-        Utils.blank_line();
+-        System.out.println(Utils.RED + "x" + Utils.RESET + " - Salir.\n" );
+-        System.out.print(Utils.YELLOW + "Elija un jugador: ");
++        }else{
++            int index = 1;
++            for(Jugador j:jugadores){
++                System.out.println(index + " - " + j.getAlias());
++                index++;
++            }
++            Utils.blank_line();
++            System.out.println(Utils.RED + "x" + Utils.RESET + " - Salir.\n" );
++
++            System.out.print(Utils.YELLOW + "Elija un jugador: ");
+ 
+-        int jugador;
+-        while(!scanner.hasNextInt()){
+-            System.out.println("Ingrese un jugador válido.");
+-        }
+-        jugador = scanner.nextInt();
+-
+-        Jugador j = jugadores.get(jugador - 1);
+-        j.menu();
++            int jugador;
++            while(!scanner.hasNextInt()){
++                System.out.println("Ingrese un jugador válido.");
++            }
++            jugador = Integer.parseInt(scanner.nextLine());
++            Jugador j = jugadores.get(jugador - 1);
++            j.menu();
++        }
+     }
+ 
+     private static void mostrarBitacora(){
+@@ -176,7 +192,6 @@
+         Utils.blank_line();
+ 
+         if(jugadores.size() == 0){
+-            Utils.blank_line();
+             System.out.println("Actualmente no hay ningún registro en la bitácora...\n" );
+             Utils.pressEnterKeyToContinue();
+         }else{
+@@ -184,8 +199,6 @@
+                 System.out.println(partida.getJugador().getAlias() + partida.getPuntaje());
+             }
+         }
+-
+-
+     }
+ 
+     public static void agregarPartida(Partida partida){
+Index: src/obligatorio_1/Partida.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package obligatorio_1;\n\nimport java.time.LocalDateTime;\n\npublic class Partida {\n\n    protected LocalDateTime hora_comienzo;\n    protected int puntaje;\n    protected Jugador jugador;\n\n    protected Partida(Jugador jugador) {\n        this.hora_comienzo = LocalDateTime.now();\n        this.jugador = jugador;\n        Main.agregarPartida(this);\n    }\n\n    public LocalDateTime getHora_comienzo() {\n        return hora_comienzo;\n    }\n\n    public int getPuntaje() {\n        return puntaje;\n    }\n\n    public Jugador getJugador() {\n        return jugador;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/obligatorio_1/Partida.java b/src/obligatorio_1/Partida.java
+--- a/src/obligatorio_1/Partida.java	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/src/obligatorio_1/Partida.java	(date 1634668056000)
+@@ -1,4 +1,8 @@
+ package obligatorio_1;
++/**
++ * @author Alejandro Martinez - 270450
++ */
++
+ 
+ import java.time.LocalDateTime;
+ 
+Index: src/obligatorio_1/Jugador.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package obligatorio_1;\n\nimport utils.Utils;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Scanner;\n\npublic class Jugador {\n\n    private String nombre;\n    private int edad;\n    private String alias;\n\n    private static final List<String> opciones_validas = new ArrayList<>(){{\n        add(\"1\");add(\"2\");add(\"x\");\n    }};\n    Scanner scanner = new Scanner(System.in);\n\n    public Jugador(String nombre, int edad, String alias) {\n        this.nombre = nombre;\n        this.edad = edad;\n        this.alias = alias;\n    }\n\n    public void menu(){\n\n        Utils.blank_line();\n        System.out.println(\" ____                                                             __             \\n\" +\n                \"/\\\\  _`\\\\    __                                             __     /\\\\ \\\\            \\n\" +\n                \"\\\\ \\\\ \\\\L\\\\ \\\\ /\\\\_\\\\      __     ___    __  __     __     ___  /\\\\_\\\\    \\\\_\\\\ \\\\     ___   \\n\" +\n                \" \\\\ \\\\  _ <'\\\\/\\\\ \\\\   /'__`\\\\ /' _ `\\\\ /\\\\ \\\\/\\\\ \\\\  /'__`\\\\ /' _ `\\\\\\\\/\\\\ \\\\   /'_` \\\\   / __`\\\\ \\n\" +\n                \"  \\\\ \\\\ \\\\L\\\\ \\\\\\\\ \\\\ \\\\ /\\\\  __/ /\\\\ \\\\/\\\\ \\\\\\\\ \\\\ \\\\_/ |/\\\\  __/ /\\\\ \\\\/\\\\ \\\\\\\\ \\\\ \\\\ /\\\\ \\\\L\\\\ \\\\ /\\\\ \\\\L\\\\ \\\\\\n\" +\n                \"   \\\\ \\\\____/ \\\\ \\\\_\\\\\\\\ \\\\____\\\\\\\\ \\\\_\\\\ \\\\_\\\\\\\\ \\\\___/ \\\\ \\\\____\\\\\\\\ \\\\_\\\\ \\\\_\\\\\\\\ \\\\_\\\\\\\\ \\\\___,_\\\\\\\\ \\\\____/\\n\" +\n                \"    \\\\/___/   \\\\/_/ \\\\/____/ \\\\/_/\\\\/_/ \\\\/__/   \\\\/____/ \\\\/_/\\\\/_/ \\\\/_/ \\\\/__,_ / \\\\/___/ : \" + this.alias);\n\n        Utils.blank_line();\n\n        System.out.println(Utils.GREEN + \"(` _ | _  _ _.  ,_ _     ,_   .   _     \\n\" +\n                \"_)(/_|(/_(_(_|()||(/_  L|||   |L|(/_(|()\\n\" +\n                \"                             _|     _|  :\" + Utils.RESET);\n\n        String input;\n        do{\n            System.out.println(\"1 - Saltar\");\n            System.out.println(\"2 - Rectángulo\");\n            System.out.println(Utils.RED + \"x\"+ Utils.RESET + \" - Salir\");\n            Utils.blank_line();\n\n            System.out.print(Utils.YELLOW + \"Ingrese una opción: \" + Utils.RESET);\n            input = scanner.nextLine();\n        }while(!Utils.validateOption(input, opciones_validas));\n\n        if(input.matches(Utils.regex_digit)){\n            opcionSeleccionada(Character.getNumericValue(input.charAt(0)));\n        }\n\n    }\n\n    public void opcionSeleccionada(int opcion){\n        if(opcion == 1){\n            Saltar saltar = new Saltar(this);\n            saltar.start();\n        }else if(opcion == 2){\n            Rectangulo rectangulo = new Rectangulo(this);\n            //rectangulo.start();\n        }\n    }\n\n    @Override\n    public String toString(){\n        return \"nombre: \" + this.nombre + \" edad: \" + this.edad + \" alias: \" + this.alias;\n    }\n    public String getNombre() {\n        return nombre;\n    }\n    public int getEdad() {\n        return edad;\n    }\n    public String getAlias() {\n        return alias;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/obligatorio_1/Jugador.java b/src/obligatorio_1/Jugador.java
+--- a/src/obligatorio_1/Jugador.java	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/src/obligatorio_1/Jugador.java	(date 1634668056000)
+@@ -1,7 +1,9 @@
+ package obligatorio_1;
++/**
++ * @author Alejandro Martinez - 270450
++ */
+ 
+ import utils.Utils;
+-
+ import java.util.ArrayList;
+ import java.util.List;
+ import java.util.Scanner;
+@@ -49,7 +51,7 @@
+ 
+             System.out.print(Utils.YELLOW + "Ingrese una opción: " + Utils.RESET);
+             input = scanner.nextLine();
+-        }while(!Utils.validateOption(input, opciones_validas));
++        }while(!Utils.validateInput(input, opciones_validas));
+ 
+         if(input.matches(Utils.regex_digit)){
+             opcionSeleccionada(Character.getNumericValue(input.charAt(0)));
+Index: src/obligatorio_1/Saltar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\npackage obligatorio_1;\n\nimport utils.Utils;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Scanner;\n\n/**\n * @author Alejandro Martinez - 270450\n */\npublic class Saltar extends Partida {\n\n    // Atributos de clase\n    public char[] sequence;\n    public char[][] table;\n    public Scanner scanner;\n    private int saltos_disponibles = 4;\n\n    // Constructor\n    public Saltar(Jugador jugador) {\n        super(jugador);\n        this.scanner = new Scanner(System.in);\n        this.sequence = new char[]{'R', 'A', 'V', 'M'};\n        this.table = new char[11][4];\n    }\n\n    // Metodo para empezar el juego\n    public void start() {\n\n        // Presentacion\n        System.out.println( Utils.RED +\"\\n\" +\n                \"░██████╗░█████╗░██╗░░░░░████████╗░█████╗░██████╗░\\n\" +\n                \"██╔════╝██╔══██╗██║░░░░░╚══██╔══╝██╔══██╗██╔══██╗\\n\" +\n                \"╚█████╗░███████║██║░░░░░░░░██║░░░███████║██████╔╝\\n\" +\n                \"░╚═══██╗██╔══██║██║░░░░░░░░██║░░░██╔══██║██╔══██╗\\n\" +\n                \"██████╔╝██║░░██║███████╗░░░██║░░░██║░░██║██║░░██║\\n\" +\n                \"╚═════╝░╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝\" + Utils.RESET);\n        Utils.blank_line();\n        System.out.println(\"El juego \\\"Saltar\\\" consiste en un tablero de 11 filas y 4 columnas. El tablero tiene un área base (sin puntuación, con 6 filas)\\n\" +\n                \"y el área con puntos. En las primeras 4 filas del área de base se ubican 16 fichas: 4 rojas, 4 azules, 4 verdes y 4 amarillas.\\n\" +\n                \"No se repite color por columna ni por fila. \");\n        System.out.println(\"El juego termina cuando no se pueden hacer más saltos y, o, quedan solamente 2 fichas en\\n\" +\n                \"el área base. El puntaje obtenido depende de la ubicación de las fichas.\");\n        System.out.println(Utils.YELLOW + \"Configuración del tablero: Predeterminada.\" + Utils.RESET);\n\n        poblarTablero();\n        mostrarTablero();\n        juego();\n    }\n\n    private void poblarTablero(){\n        this.table[0] = new char[]{'M', 'V', 'R', 'A'};\n        this.table[1] = new char[]{'V', 'R', 'A', 'M'};\n        this.table[2] = new char[]{'R', 'A', 'M', 'V'};\n        this.table[3] = new char[]{'A', 'M', 'V', 'R'};\n    }\n\n    private void juego() {\n\n        // El juego termina cuando no se pueden hacer más saltos y, o, quedan solamente 2 fichas en el área base\n        for (int pos = 0; (calcularSaltosDisponibles() > 0) && (cantAreaBase()) > 2; pos++) {\n\n            // Si la posicion se pasa de 3, volver a empezar en la lista de colores\n            if (pos > 3){\n                pos = 0;\n            }\n            char color = this.sequence[pos];\n\n            // Actualizar columnas disponibles para ese color\n            List<String> opciones_validas = new ArrayList<>(){{\n                add(\"1\");add(\"2\");add(\"3\");add(\"4\");add(\"x\");\n            }};\n\n            // Pedir ingreso de la columna dentro de las columnas disponibles\n            String input;\n            do{\n                String color_a_mostrar = colorAMostrar(color);\n                System.out.println(\"Le toca mover al color: \" + color_a_mostrar);\n                System.out.println(\"Las columnas disponibles son: \");\n\n                // Iterar en las columnas disponibles\n                System.out.println(\"1\");\n                System.out.println(\"2\");\n                System.out.println(\"3\");\n                System.out.println(\"4\");\n                System.out.println(Utils.RED + \"x\"+ Utils.RESET + \" - Terminar Juego.\");\n                Utils.blank_line();\n\n                System.out.print(Utils.YELLOW + \"Ingrese una opción: \" + Utils.RESET);\n                input = scanner.nextLine();\n            }while(!Utils.validateOption(input, opciones_validas));\n\n            // Mandar la columna seleccionada o el fin del juego\n            if(input.matches(Utils.regex_digit)){\n\n                // Si efectuar el movimiento no se puede hacer, pasar a otro color en el for\n                int columna_seleccionada = Character.getNumericValue(input.charAt(0) - 1);\n\n                if(!efectuarMovimiento(columna_seleccionada, color)){\n                    pos--;\n                    continue;\n                }\n            }else{\n                if (finDelJuego()) {\n                    break;\n                } else {\n                    pos --;\n                };\n            }\n            mostrarTablero();\n        }\n    }\n\n    private boolean efectuarMovimiento(int columna_seleccionada, char color){\n        int fila_origen;\n        int filas_a_mover;\n        int fila_destino;\n\n        // a) una ficha salta siempre hacia adelante, en su misma columna, tantas posiciones como\n        //fichas que haya en esa fila de partida del salto (incluyendo la propia ficha).\n        fila_origen = buscarFilaEnColumna(columna_seleccionada, color);\n        filas_a_mover = fichasEnFila(fila_origen);\n        fila_destino = filas_a_mover + fila_origen;\n\n        // Ver si el movimiento se puede hacer\n        if(fila_destino > this.table.length){\n            System.out.println(\"No se puede mover a ese lugar, pasando al siguente color.\\n\");\n            saltos_disponibles -= 1;\n            return false;\n        }\n\n        // b) la posición de destino debe estar vacía\n        if (this.table[fila_destino][columna_seleccionada] != '\\0') {\n            System.out.println(\"Esa posición ya está ocupada! Seleccione otra columna.\\n\");\n            return false;\n        }\n\n        // c) en el área de base, no puede haber dos fichas del mismo color en la misma fila (en el\n        // área con puntos sí puede haber).\n        if (fila_destino <= 5){\n            if (!checkearFilaApta(fila_destino, color)) {\n                System.out.println(\"Ese nivel ya contiene un \" + color + \"\\n\");\n                return false;\n            }\n        }\n\n        // (d) la ficha más adelantada del color considerado en el tablero no puede avanzar solamente\n        // una posición.\n        if (filas_a_mover == 1){\n            if (fichaMasAdelantada(fila_origen, color)){\n                System.out.println(\"No se puede mover a ese lugar, seleccione otra columna.\\n\");\n                return false;\n            }\n        }\n\n        this.table[fila_destino][columna_seleccionada] = color;\n        this.table[fila_origen][columna_seleccionada] = '\\0';\n        System.out.println(Utils.GREEN + Utils.CHECK_EMOJI +\" Movimiento efectuado\"+ Utils.RESET);\n\n        return true;\n    }\n\n    private int buscarFilaEnColumna(int columna, char c) {\n        for (int i = 0; i < this.table.length; i++) {\n            if (this.table[i][columna] == c) {\n                return i;\n            }\n        }\n        return -1;\n    }\n\n    private int fichasEnFila(int fila) {\n        int fichas = 0;\n        for (int col = 0; col < this.table[fila].length; col++) {\n            if(this.table[fila][col] != '\\0'){\n                fichas++;\n            }\n        }\n        return fichas;\n    }\n\n    private boolean checkearFilaApta(int fila_seleccionada, char color) {\n        boolean flag = true;\n        for (int col = 0; col < this.table[fila_seleccionada].length; col++) {\n            if (this.table[fila_seleccionada][col] == color) {\n                flag = false;\n                break;\n            }\n        }\n        return flag;\n    }\n\n    private boolean fichaMasAdelantada(int fila_origen, char color){\n        boolean flag = false;\n        for (int fila = fila_origen + 1; fila < this.table.length && !flag; fila++) {\n            for (int col = 0; col < this.table[fila].length; col++) {\n                if(this.table[fila][col] != color){\n                    flag = true;\n                    break;\n                }\n            }\n        }\n        return flag;\n    }\n\n    private void mostrarTablero(){\n        Utils.blank_line();\n        System.out.println(\"+-+-+-+-+\");\n        for (int fila = this.table.length - 1; fila >= 0; fila--) {\n            for (int col = 0; col < this.table[fila].length; col++) {\n\n                char color_a_mostrar = this.table[fila][col];\n                if (color_a_mostrar == 'A'){\n                    System.out.print(\"|\" + Utils.BLUE + '#' + Utils.RESET);\n                }else if(color_a_mostrar == 'M'){\n                    System.out.print(\"|\" + Utils.YELLOW + '#' + Utils.RESET);\n                }else if(color_a_mostrar == 'V'){\n                    System.out.print(\"|\" + Utils.GREEN + '#' + Utils.RESET);\n                }else if (color_a_mostrar == 'R'){\n                    System.out.print(\"|\" + Utils.RED + '#' + Utils.RESET);\n                }else{\n                    System.out.print(\"|\" + \" \");\n                }\n            }\n            System.out.print(\"|\\n\");\n            System.out.println(\"+-+-+-+-+\");\n        }\n        Utils.blank_line();\n    }\n\n    private boolean finDelJuego(){\n        // Mostrar disposición final en el tablero\n        Utils.blank_line();\n        System.out.print(\"Disposición final del tablero:\");\n        mostrarTablero();\n\n        // Calcular puntuación final\n        calcularPuntos();\n        System.out.println(Utils.RED + \"Puntuación TOTAL: \" + Utils.RESET + this.puntaje);\n        System.out.println(Utils.YELLOW + Utils.BOOK_EMOJI + \" Agregando a bitácora...\" + Utils.RESET);\n        System.out.println(Utils.GREEN + Utils.CHECK_EMOJI + \" Puntuación registrada.\" + Utils.RESET);\n\n        // Preguntar si quiere jugar otra vez\n        Utils.blank_line();\n        System.out.println(\"Desea volver a jugar? s / N\");\n        String si_o_no = scanner.nextLine();\n        return !si_o_no.equalsIgnoreCase(\"s\");\n    }\n\n    private int cantAreaBase(){\n        int long_area_base = 0;\n        for(int fila = 0; fila < this.table.length && fila <= 3; fila ++){\n            for(int col = 0; col < this.table[fila].length; col++){\n                long_area_base += 1;\n            }\n        }\n        return long_area_base;\n    }\n\n    private int calcularSaltosDisponibles(){\n        return 12;\n    }\n\n    private void calcularPuntos() {\n        int resultado = 0;\n        for (int fila = 6; fila < this.table.length; fila++){\n            for(int col = 0; col < this.table[fila].length; col++){\n                if(table[fila][col] != '\\0'){\n                    if(fila == 6){\n                        resultado += 10;\n                    }else if(fila == 7){\n                        resultado += 20;\n                    }else if (fila == 8){\n                        resultado += 30;\n                    } else if(fila == 9){\n                        resultado += 40;\n                    }else{\n                        resultado += 60;\n                    }\n                }\n            }\n        }\n        this.puntaje = resultado;\n    }\n\n    private String colorAMostrar(char color){\n        String color_a_mostrar;\n        if (color == 'R'){\n            color_a_mostrar = Utils.RED + \"Rojo\" + Utils.RESET;\n        }else if (color == 'V'){\n            color_a_mostrar = Utils.GREEN + \"Verde\" + Utils.RESET;\n        }else if(color == 'M'){\n            color_a_mostrar = Utils.YELLOW + \"Amarillo\" + Utils.RESET;\n        }else{\n            color_a_mostrar = Utils.BLUE + \"Azul\" + Utils.RESET;\n        }\n        return color_a_mostrar;\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/obligatorio_1/Saltar.java b/src/obligatorio_1/Saltar.java
+--- a/src/obligatorio_1/Saltar.java	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/src/obligatorio_1/Saltar.java	(date 1634668056000)
+@@ -45,7 +45,6 @@
+         System.out.println(Utils.YELLOW + "Configuración del tablero: Predeterminada." + Utils.RESET);
+ 
+         poblarTablero();
+-        mostrarTablero();
+         juego();
+     }
+ 
+@@ -76,6 +75,7 @@
+             String input;
+             do{
+                 String color_a_mostrar = colorAMostrar(color);
++                Utils.blank_line();
+                 System.out.println("Le toca mover al color: " + color_a_mostrar);
+                 System.out.println("Las columnas disponibles son: ");
+ 
+@@ -89,7 +89,7 @@
+ 
+                 System.out.print(Utils.YELLOW + "Ingrese una opción: " + Utils.RESET);
+                 input = scanner.nextLine();
+-            }while(!Utils.validateOption(input, opciones_validas));
++            }while(!Utils.validateInput(input, opciones_validas));
+ 
+             // Mandar la columna seleccionada o el fin del juego
+             if(input.matches(Utils.regex_digit)){
+@@ -108,7 +108,6 @@
+                     pos --;
+                 };
+             }
+-            mostrarTablero();
+         }
+     }
+ 
+Index: src/obligatorio_1/Rectangulo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package obligatorio_1;\n\npublic class Rectangulo extends Partida{\n\n    public char[][] matriz_saltar;\n\n    public Rectangulo(Jugador jugador) {\n        super(jugador);\n        this.matriz_saltar = new char[20][20];\n    }\n\n    private void calcularPuntos() {\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/obligatorio_1/Rectangulo.java b/src/obligatorio_1/Rectangulo.java
+--- a/src/obligatorio_1/Rectangulo.java	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/src/obligatorio_1/Rectangulo.java	(date 1634668056000)
+@@ -1,4 +1,7 @@
+ package obligatorio_1;
++/**
++ * @author Alejandro Martinez - 270450
++ */
+ 
+ public class Rectangulo extends Partida{
+ 
+Index: nbproject/project.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>annotation.processing.enabled=true\nannotation.processing.enabled.in.editor=false\nannotation.processing.processor.options=\nannotation.processing.processors.list=\nannotation.processing.run.all.processors=true\nannotation.processing.source.output=${build.generated.sources.dir}/ap-source-output\nbuild.classes.dir=${build.dir}/classes\nbuild.classes.excludes=**/*.java,**/*.form\n# This directory is removed when the project is cleaned:\nbuild.dir=build\nbuild.generated.dir=${build.dir}/generated\nbuild.generated.sources.dir=${build.dir}/generated-sources\n# Only compile against the classpath explicitly listed here:\nbuild.sysclasspath=ignore\nbuild.test.classes.dir=${build.dir}/test/classes\nbuild.test.results.dir=${build.dir}/test/results\n# Uncomment to specify the preferred debugger connection transport:\n#debug.transport=dt_socket\ndebug.classpath=\\\n    ${run.classpath}\ndebug.modulepath=\\\n    ${run.modulepath}\ndebug.test.classpath=\\\n    ${run.test.classpath}\ndebug.test.modulepath=\\\n    ${run.test.modulepath}\n# Files in build.classes.dir which should be excluded from distribution jar\ndist.archive.excludes=\n# This directory is removed when the project is cleaned:\ndist.dir=dist\ndist.jar=${dist.dir}/Obligatorio_1.jar\ndist.javadoc.dir=${dist.dir}/javadoc\ndist.jlink.dir=${dist.dir}/jlink\ndist.jlink.output=${dist.jlink.dir}/Obligatorio_1\nexcludes=\nincludes=**\njar.compress=false\njavac.classpath=\n# Space-separated list of extra javac options\njavac.compilerargs=\njavac.deprecation=false\njavac.external.vm=true\njavac.modulepath=\njavac.processormodulepath=\njavac.processorpath=\\\n    ${javac.classpath}\njavac.source=16\njavac.target=16\njavac.test.classpath=\\\n    ${javac.classpath}:\\\n    ${build.classes.dir}\njavac.test.modulepath=\\\n    ${javac.modulepath}\njavac.test.processorpath=\\\n    ${javac.test.classpath}\njavadoc.additionalparam=\njavadoc.author=false\njavadoc.encoding=${source.encoding}\njavadoc.html5=false\njavadoc.noindex=false\njavadoc.nonavbar=false\njavadoc.notree=false\njavadoc.private=false\njavadoc.splitindex=true\njavadoc.use=true\njavadoc.version=false\njavadoc.windowtitle=\n# The jlink additional root modules to resolve\njlink.additionalmodules=\n# The jlink additional command line parameters\njlink.additionalparam=\njlink.launcher=true\njlink.launcher.name=Obligatorio_1\nmain.class=obligatorio_1.Saltar\nmanifest.file=manifest.mf\nmeta.inf.dir=${src.dir}/META-INF\nmkdist.disabled=false\nplatform.active=default_platform\nrun.classpath=\\\n    ${javac.classpath}:\\\n    ${build.classes.dir}\n# Space-separated list of JVM arguments used when running the project.\n# You may also define separate properties like run-sys-prop.name=value instead of -Dname=value.\n# To set system properties for unit tests define test-sys-prop.name=value:\nrun.jvmargs=\nrun.modulepath=\\\n    ${javac.modulepath}\nrun.test.classpath=\\\n    ${javac.test.classpath}:\\\n    ${build.test.classes.dir}\nrun.test.modulepath=\\\n    ${javac.test.modulepath}\nsource.encoding=UTF-8\nsrc.dir=src\ntest.src.dir=test\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/nbproject/project.properties b/nbproject/project.properties
+--- a/nbproject/project.properties	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/nbproject/project.properties	(date 1634668056000)
+@@ -1,9 +1,10 @@
+ annotation.processing.enabled=true
+ annotation.processing.enabled.in.editor=false
+-annotation.processing.processor.options=
+ annotation.processing.processors.list=
+ annotation.processing.run.all.processors=true
+ annotation.processing.source.output=${build.generated.sources.dir}/ap-source-output
++application.title=Obligatorio_1
++application.vendor=Ale
+ build.classes.dir=${build.dir}/classes
+ build.classes.excludes=**/*.java,**/*.form
+ # This directory is removed when the project is cleaned:
+@@ -32,6 +33,7 @@
+ dist.javadoc.dir=${dist.dir}/javadoc
+ dist.jlink.dir=${dist.dir}/jlink
+ dist.jlink.output=${dist.jlink.dir}/Obligatorio_1
++endorsed.classpath=
+ excludes=
+ includes=**
+ jar.compress=false
+@@ -71,7 +73,7 @@
+ jlink.additionalparam=
+ jlink.launcher=true
+ jlink.launcher.name=Obligatorio_1
+-main.class=obligatorio_1.Saltar
++main.class=obligatorio_1.Main
+ manifest.file=manifest.mf
+ meta.inf.dir=${src.dir}/META-INF
+ mkdist.disabled=false
+Index: src/utils/Utils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package utils;\n\nimport java.util.List;\n\npublic abstract class Utils {\n\n    public static boolean validateOption(String input, List<String> opciones_validas){\n        boolean flag = false;\n        if(opciones_validas.contains(input.toLowerCase())){\n            flag = true;\n        }else{\n            System.out.printf(\"\\\"%s\\\" No es una opción válida...\\n\\n\", input);\n        }\n        return flag;\n    }\n    public static void clear_console(){\n        System.out.print(\"\\033[H\\033[2J\");\n        System.out.flush();\n    }\n    public static void end_program(){\n        clear_console();\n        System.out.println(\"FIN.\");\n        System.exit(0);\n    }\n    public static void blank_line() {\n        System.out.print(\"\\n\");\n    }\n    public static void pressEnterKeyToContinue() {\n        System.out.print(Utils.RED + \"Presione 'Enter' para volver...\" + Utils.RESET);\n        try {\n            System.in.read();\n        } catch(Exception e) {}\n    }\n    public static final String regex_digit = \"\\\\d+\";\n    public static final String RESET = \"\\u001B[0m\";\n    public static final String RED = \"\\u001B[31m\";\n    public static final String GREEN = \"\\u001B[32m\";\n    public static final String YELLOW = \"\\u001B[33m\";\n    public static final String BLUE = \"\\u001B[34m\";\n    public static final String BOOK_EMOJI = \"\\uD83D\\uDCDA\";\n    public static final String CHAT_EMOJI = \"\\uD83D\\uDCAC\\uFEFF\";\n    public static final String CHECK_EMOJI = \"✔\";\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/utils/Utils.java b/src/utils/Utils.java
+--- a/src/utils/Utils.java	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/src/utils/Utils.java	(date 1634668056000)
+@@ -1,10 +1,13 @@
+ package utils;
++/**
++ * @author Alejandro Martinez - 270450
++ */
+ 
+ import java.util.List;
+ 
+ public abstract class Utils {
+ 
+-    public static boolean validateOption(String input, List<String> opciones_validas){
++    public static boolean validateInput(String input, List<String> opciones_validas){
+         boolean flag = false;
+         if(opciones_validas.contains(input.toLowerCase())){
+             flag = true;
+Index: nbproject/private/private.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project-private xmlns=\"http://www.netbeans.org/ns/project-private/1\">\n    <open-files xmlns=\"http://www.netbeans.org/ns/projectui-open-files/2\">\n        <group>\n            <file>file:/C:/Users/User/docs/ing/Prog2/Practicos/Practico-3/Obligatorio_1/src/obligatorio_1/Obligatorio_1.java</file>\n        </group>\n    </open-files>\n</project-private>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/nbproject/private/private.xml b/nbproject/private/private.xml
+--- a/nbproject/private/private.xml	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/nbproject/private/private.xml	(date 1634668056000)
+@@ -1,8 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
++    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+         <group>
+-            <file>file:/C:/Users/User/docs/ing/Prog2/Practicos/Practico-3/Obligatorio_1/src/obligatorio_1/Obligatorio_1.java</file>
++            <file>file:/C:/Users/User/docs/ing/Prog2/Obligatorios/fi-prog2-obligatorio1/src/obligatorio_1/Main.java</file>
+         </group>
+     </open-files>
+ </project-private>
+Index: nbproject/private/private.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>compile.on.save=true\nuser.properties.file=C:\\\\Users\\\\User\\\\AppData\\\\Roaming\\\\NetBeans\\\\12.4\\\\build.properties\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/nbproject/private/private.properties b/nbproject/private/private.properties
+--- a/nbproject/private/private.properties	(revision 2d4e032695d8a112163c5866f8f0b7a222c797f1)
++++ b/nbproject/private/private.properties	(date 1634668056000)
+@@ -1,2 +1,8 @@
+ compile.on.save=true
++do.depend=false
++do.jar=true
++do.jlink=false
++javac.debug=true
++javadoc.preview=true
++jlink.strip=false
+ user.properties.file=C:\\Users\\User\\AppData\\Roaming\\NetBeans\\12.4\\build.properties
