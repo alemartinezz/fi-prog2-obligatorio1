@@ -151,20 +151,23 @@ public class Main {
 
         Utils.blank_line();
 
-        boolean alias_flag = false;
+        boolean isValidAlias = false;
         String alias = "";
         do {
             System.out.print("Ingrese un alias: ");
             alias = scanner.nextLine();
-            if(alias.contains(" ")){
-                System.out.println("El alias no debe contener espacios.");
-            }else if (alias_en_uso.contains(alias)){
-                System.out.println("El alias ya está en uso.");
-            }else{
-                alias_flag = true;
+            while(!alias.isEmpty() && !isValidAlias){
+                if(alias.contains(" ")){
+                    System.out.println("El alias no debe contener espacios.\n");
+                    break;
+                }else if (alias_en_uso.contains(alias)){
+                    System.out.println("El alias ya está en uso.\n");
+                    break;
+                }else{
+                    isValidAlias = true;
+                }
             }
-        } while (!alias_flag || alias.equals(""));
-
+        } while (!isValidAlias);
 
         Jugador jugador = new Jugador(name, Integer.parseInt(age), alias);
         jugadores.add(jugador);

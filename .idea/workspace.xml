@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="40c2c21d-06d7-4420-9428-55f5e9e1ae4d" name="Default Changelist" comment="problems with pull">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Jugador$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Jugador.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Main$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Partida.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Rectangulo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Saltar$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/obligatorio_1/Saltar.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Obligatorio_1/utils/Utils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Jugador.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Jugador.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Main$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Saltar.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/obligatorio_1/Saltar.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/utils/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/fi-prog2-obligatorio1/utils/Utils.class" afterDir="false" />
+    <list default="true" id="40c2c21d-06d7-4420-9428-55f5e9e1ae4d" name="Default Changelist" comment="fix input validation">
       <change beforePath="$PROJECT_DIR$/src/obligatorio_1/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/obligatorio_1/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +62,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634814249241</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix input validation">
+      <created>1634910954733</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1634910954733</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix input validation">
+      <created>1634910963140</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1634910963140</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -95,6 +93,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="problems with pull" />
-    <option name="LAST_COMMIT_MESSAGE" value="problems with pull" />
+    <MESSAGE value="fix input validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix input validation" />
   </component>
 </project>
